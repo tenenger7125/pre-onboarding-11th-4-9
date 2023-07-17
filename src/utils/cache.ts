@@ -1,6 +1,6 @@
 import { SearchType } from '../types';
 
-const expirationSeconds = 10; // 60 * 60 * 1000 = 1hour
+const expirationSeconds = 60 * 60 * 1000; // 60 * 60 * 1000 = 1hour
 const KEY = 'searchCache';
 
 export const cache = {
