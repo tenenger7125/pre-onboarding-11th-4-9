@@ -1,10 +1,8 @@
-import { SearchType } from '../types';
-
 const expirationSeconds = 60 * 60 * 1000; // 60 * 60 * 1000 = 1hour
 const KEY = 'searchCache';
 
 export const cache = {
-  async set(url: string, data: SearchType[]) {
+  async set(url: string, data: unknown[]) {
     const cacheStorage = await caches.open(KEY);
     const response = new Response(JSON.stringify({ data, expirationTime: Date.now() + expirationSeconds * 1000 }));
 

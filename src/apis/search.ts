@@ -12,7 +12,7 @@ export const searchApi = {
     if (res) {
       const { data, expirationTime } = await res.json();
 
-      if (Date.now() < expirationTime) return data;
+      if (Date.now() < expirationTime) return data as SearchType[];
     }
 
     const { data } = await instance.get<SearchType[]>(url);
