@@ -1,11 +1,10 @@
 import { styled } from 'styled-components';
 
+import Search from './Search';
+import { Title } from '../../components';
 import { ReactComponent as CommunicatingPeople } from '../../assets/communicatingPeople.svg';
 import { ReactComponent as ResearchingPerson } from '../../assets/researchingPerson.svg';
 import { ReactComponent as DrawBoardPerson } from '../../assets/drawBoardPerson.svg';
-
-import Search from './Search';
-import { Title } from '../../components';
 
 const Home = () => {
   return (

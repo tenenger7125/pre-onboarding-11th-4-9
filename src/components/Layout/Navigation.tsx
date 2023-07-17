@@ -2,8 +2,6 @@ import { styled } from 'styled-components';
 
 import Button from '../Button';
 
-const DUMMY_NAVIGATORS = ['소개', '질문과 답변', '소식받기', '제휴/문의'];
-
 const Navigation = () => {
   return (
     <nav>
@@ -17,6 +15,8 @@ const Navigation = () => {
     </nav>
   );
 };
+
+const DUMMY_NAVIGATORS = ['소개', '질문과 답변', '소식받기', '제휴/문의'];
 
 const SContainer = styled.ul`
   display: flex;
