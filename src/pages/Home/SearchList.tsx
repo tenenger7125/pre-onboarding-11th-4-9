@@ -3,13 +3,13 @@ import { SearchType } from '../../types';
 
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 
-const SearchList = ({ searchList, currentIdx, updateCurrentIdx }: SearchListProps) => {
+const SearchList = ({ searchList, currentIdx, handleCurrentIdxUpdate }: SearchListProps) => {
   return (
     <SLayout>
       {searchList.length > 0 ? <SDescription>추천 검색어</SDescription> : <SDescription>검색어 없음</SDescription>}
       <SSearchList>
         {searchList.map(({ sickCd, sickNm }, idx) => (
-          <SSearchItem key={sickCd} $isHover={currentIdx === idx} onMouseEnter={() => updateCurrentIdx(idx)}>
+          <SSearchItem key={sickCd} $isHover={currentIdx === idx} onMouseEnter={() => handleCurrentIdxUpdate(idx)}>
             <SearchIcon width={16} />
             <span>{sickNm}</span>
           </SSearchItem>
@@ -63,7 +63,7 @@ const SDescription = styled.div`
 type SearchListProps = {
   searchList: SearchType[];
   currentIdx: number;
-  updateCurrentIdx: (idx: number) => void;
+  handleCurrentIdxUpdate: (idx: number) => void;
 };
 
 export default SearchList;

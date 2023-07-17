@@ -5,34 +5,21 @@ import { Button } from '../../components';
 import { useSearch, useOutSideClick } from '../../hooks';
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 import { ReactComponent as Close } from '../../assets/close.svg';
-import { useEffect, useState } from 'react';
 
 const Search = () => {
-  const { search, searchList, isShow, handleSearchChange, handleSearchReset, handleOpen, handleClose } = useSearch();
+  const {
+    search,
+    searchList,
+    isShow,
+    currentIdx,
+    handleSearchChange,
+    handleSearchReset,
+    handleOpen,
+    handleClose,
+    handleKeyDown,
+    handleCurrentIdxUpdate,
+  } = useSearch();
   const ref = useOutSideClick(handleClose);
-
-  // 밑의 코드를 useSearch 안에 넣고, useSearch를 useAutocomplete로 변경해도 될지 고민하자.
-  const [currentIdx, setCurrentIdx] = useState(-1);
-
-  const updateCurrentIdx = (idx: number) => setCurrentIdx(idx);
-
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
-    switch (e.key) {
-      case 'ArrowUp': {
-        e.preventDefault();
-        return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
-      }
-      case 'ArrowDown': {
-        e.preventDefault();
-        return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
-      }
-    }
-  };
-
-  useEffect(() => {
-    updateCurrentIdx(-1);
-    // debouncedSearch로 의존 배열에 넣으면 더 최적화될듯
-  }, [isShow, search]);
 
   return (
     <SLayout $isFocus={isShow} ref={ref}>
@@ -55,7 +42,9 @@ const Search = () => {
       <Button variant="subtle" br="circle">
         <SearchIcon width={21} height={21} />
       </Button>
-      {isShow && <SearchList searchList={searchList} currentIdx={currentIdx} updateCurrentIdx={updateCurrentIdx} />}
+      {isShow && (
+        <SearchList searchList={searchList} currentIdx={currentIdx} handleCurrentIdxUpdate={handleCurrentIdxUpdate} />
+      )}
     </SLayout>
   );
 };
