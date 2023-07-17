@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+import SearchList from './SearchList';
 import { Button } from '../../components';
 import { useSearch, useOutSideClick } from '../../hooks';
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
@@ -11,7 +12,7 @@ const Search = () => {
 
   return (
     <SLayout $isFocus={isShow} ref={ref}>
-      <SSearchContainer>
+      <SInputSearchContainer>
         {!isShow && <SearchIcon width={16} height={16} />}
         <SInput
           type="text"
@@ -25,23 +26,11 @@ const Search = () => {
             <Close width={16} height={16} />
           </Button>
         )}
-      </SSearchContainer>
+      </SInputSearchContainer>
       <Button variant="subtle" br="circle">
         <SearchIcon width={21} height={21} />
       </Button>
-      {isShow && (
-        <SSearchResultContainer>
-          {searchList.length > 0 ? <SDescription>추천 검색어</SDescription> : <SDescription>검색어 없음</SDescription>}
-          <SSearchList>
-            {searchList.map(({ sickCd, sickNm }) => (
-              <SSearchItem key={sickCd}>
-                <SearchIcon width={16} />
-                <span>{sickNm}</span>
-              </SSearchItem>
-            ))}
-          </SSearchList>
-        </SSearchResultContainer>
-      )}
+      {isShow && <SearchList searchList={searchList} />}
     </SLayout>
   );
 };
@@ -63,34 +52,7 @@ const SLayout = styled.div<SLayoutStyleProps>`
   background-color: ${props => props.theme.colors['bg-white']};
 `;
 
-const SSearchList = styled.ul`
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  line-height: 1.6;
-`;
-
-const SSearchResultContainer = styled.div`
-  height: 260px;
-
-  position: absolute;
-  top: 80px;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  background-color: ${props => props.theme.colors['bg-white']};
-  border-radius: 10px;
-  padding: 15px;
-  overflow-y: auto;
-
-  text-align: left;
-`;
-
-const SSearchContainer = styled.div`
+const SInputSearchContainer = styled.div`
   width: 100%;
 
   display: flex;
@@ -101,17 +63,6 @@ const SSearchContainer = styled.div`
   padding-right: 8px;
 `;
 
-const SSearchItem = styled.li`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 5px;
-
-  &:hover {
-    background-color: ${props => props.theme.colors['bg-lightWhite']};
-  }
-`;
-
 const SInput = styled.input`
   width: 100%;
 
@@ -119,11 +70,6 @@ const SInput = styled.input`
   outline: none;
 
   font-size: 18px;
-`;
-
-const SDescription = styled.div`
-  font-size: 14px;
-  color: ${props => props.theme.colors['ft-lightGray']};
 `;
 
 type SLayoutStyleProps = {
