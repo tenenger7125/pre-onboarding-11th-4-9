@@ -3,13 +3,13 @@ import { SearchType } from '../../types';
 
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
 
-const SearchList = ({ searchList }: SearchListProps) => {
+const SearchList = ({ searchList, currentIdx, updateCurrentIdx }: SearchListProps) => {
   return (
     <SLayout>
       {searchList.length > 0 ? <SDescription>추천 검색어</SDescription> : <SDescription>검색어 없음</SDescription>}
       <SSearchList>
-        {searchList.map(({ sickCd, sickNm }) => (
-          <SSearchItem key={sickCd}>
+        {searchList.map(({ sickCd, sickNm }, idx) => (
+          <SSearchItem key={sickCd} $isHover={currentIdx === idx} onMouseEnter={() => updateCurrentIdx(idx)}>
             <SearchIcon width={16} />
             <span>{sickNm}</span>
           </SSearchItem>
@@ -46,15 +46,13 @@ const SSearchList = styled.ul`
   line-height: 1.6;
 `;
 
-const SSearchItem = styled.li`
+const SSearchItem = styled.li<{ $isHover: boolean }>`
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 5px;
 
-  &:hover {
-    background-color: ${props => props.theme.colors['bg-lightWhite']};
-  }
+  ${props => props.$isHover && `background-color: ${props.theme.colors['bg-lightWhite']}`}
 `;
 
 const SDescription = styled.div`
@@ -64,6 +62,8 @@ const SDescription = styled.div`
 
 type SearchListProps = {
   searchList: SearchType[];
+  currentIdx: number;
+  updateCurrentIdx: (idx: number) => void;
 };
 
 export default SearchList;
