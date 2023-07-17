@@ -1,16 +1,27 @@
 import axios from 'axios';
 
 import { BASE_URL } from '../constants';
-import type { SearchType } from '../types';
+import { cache } from '../utils';
 
 const instance = axios.create({
   baseURL: BASE_URL,
 });
 
 export const searchServices = {
-  async search(search: string) {
-    const { data } = await instance.get<SearchType[]>(`/sick?q=${search}`);
+  get() {
+    instance.interceptors.response.use(
+      async res => {
+        const { url = '' } = res.config;
 
-    return data;
+        await cache.set(url, res.data);
+
+        return res;
+      },
+      err => {
+        return Promise.reject(err);
+      },
+    );
+
+    return instance;
   },
 };

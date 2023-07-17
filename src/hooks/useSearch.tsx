@@ -1,7 +1,7 @@
 import { SearchType } from '../types/search';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { searchServices } from '../services/search';
+import { searchApi } from '../apis';
 
 const useSearch = () => {
   const [searchList, setSearchList] = useState<SearchType[]>([]);
@@ -16,8 +16,8 @@ const useSearch = () => {
   useEffect(() => {
     (async function () {
       try {
-        const searchList = await searchServices.search(search);
-        setSearchList(searchList);
+        const newSearchList = await searchApi.get(search);
+        setSearchList(newSearchList);
       } catch (err) {
         console.log(err);
       }
