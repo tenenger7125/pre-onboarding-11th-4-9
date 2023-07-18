@@ -19,7 +19,9 @@ Title.defaultProps = {
 
 const STitle = styled.div<TitleStyleProps>`
   display: ${props => props.$display};
+
   padding: ${props => props.$p};
+
   font-size: ${props => props.$fz && `${props.$fz}px`};
   font-weight: 700;
 

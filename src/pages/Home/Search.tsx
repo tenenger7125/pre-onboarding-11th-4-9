@@ -74,8 +74,7 @@ const SInputSearchContainer = styled.div`
   gap: 5px;
   align-items: center;
 
-  padding: 16px 15px;
-  padding-right: 8px;
+  padding: 16px 15px 16px 8px;
 `;
 
 const SInput = styled.input`

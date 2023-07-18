@@ -19,7 +19,7 @@ const useOutSideClick = (callback: () => void) => {
     return () => {
       document.removeEventListener('click', listener);
     };
-  }, [callback, ref]);
+  }, [callback]);
 
   return ref;
 };

@@ -1,6 +1,6 @@
 import { searchServices } from '../services';
-import { SearchType } from '../types';
 import { cache } from '../utils';
+import { SearchType } from '../types';
 
 const instance = searchServices.get();
 

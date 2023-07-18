@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
-import { SearchType } from '../../types';
 
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
+import { SearchType } from '../../types';
 
 const SearchList = ({ searchList, currentIdx, handleCurrentIdxUpdate }: SearchListProps) => {
   return (
@@ -22,18 +22,20 @@ const SearchList = ({ searchList, currentIdx, handleCurrentIdxUpdate }: SearchLi
 const SLayout = styled.div`
   height: 260px;
 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   position: absolute;
   top: 80px;
   left: 0;
   right: 0;
 
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 15px;
 
   background-color: ${props => props.theme.colors['bg-white']};
+
   border-radius: 10px;
-  padding: 15px;
   overflow-y: auto;
 
   text-align: left;

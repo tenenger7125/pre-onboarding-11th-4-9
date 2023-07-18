@@ -30,15 +30,19 @@ const SLayout = styled.section`
 
 const SContainer = styled.section`
   max-width: 1000px;
+
   position: relative;
+
   padding: 80px 0px 160px;
   margin: 0 auto;
+
   text-align: center;
   line-height: 1.6;
 `;
 
 const SResearchingPerson = styled(ResearchingPerson)`
   width: 130px;
+
   position: absolute;
   right: 124px;
   top: 280px;
@@ -46,6 +50,7 @@ const SResearchingPerson = styled(ResearchingPerson)`
 
 const SCommunicatingPeople = styled(CommunicatingPeople)`
   width: 148px;
+
   position: absolute;
   left: 0;
   top: 200px;
@@ -53,6 +58,7 @@ const SCommunicatingPeople = styled(CommunicatingPeople)`
 
 const SDrawBoardPerson = styled(DrawBoardPerson)`
   width: 116px;
+
   position: absolute;
   right: 20px;
   top: 188px;

@@ -1,11 +1,10 @@
-import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 import Navigation from './Navigation';
-
+import { Title } from '../index';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { PATH } from '../../constants';
-import { Title } from '../index';
 
 const Header = () => {
   return (
