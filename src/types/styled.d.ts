@@ -1,9 +1,8 @@
 import 'styled-components';
 
-import type { DefaultThemeColors } from '../styles/theme';
+import type { UserDefaultTheme } from '../styles';
 
 declare module 'styled-components' {
-  export interface DefaultTheme {
-    colors: DefaultThemeColors;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DefaultTheme extends UserDefaultTheme {}
 }

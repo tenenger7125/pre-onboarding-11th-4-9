@@ -13,4 +13,4 @@ export const defaultTheme = {
   },
 } as const;
 
-export type DefaultThemeColors = (typeof defaultTheme)[keyof typeof defaultTheme];
+export type UserDefaultTheme = typeof defaultTheme;
