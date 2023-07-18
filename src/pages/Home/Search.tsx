@@ -29,6 +29,7 @@ const Search = () => {
           type="text"
           value={search}
           onChange={handleSearchChange}
+          onFocus={handleOpen}
           onClick={handleOpen}
           onKeyDown={handleKeyDown}
           placeholder={isShow ? '' : '질환명을 입력해주세요'}
