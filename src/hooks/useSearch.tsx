@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import useDebounce from './useDebounce';
 import { searchApi } from '../apis';
@@ -11,11 +11,11 @@ const useSearch = () => {
   const [currentIdx, setCurrentIdx] = useState(-1);
   const debounceSearch = useDebounce(search);
 
-  const handleCurrentIdxUpdate = (idx: number) => setCurrentIdx(idx);
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
-  const handleSearchReset = () => setSearch('');
-  const handleClose = () => setIsShow(false);
-  const handleOpen = () => setIsShow(true);
+  const handleCurrentIdxUpdate = useCallback((idx: number) => setCurrentIdx(idx), []);
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value), []);
+  const handleSearchReset = useCallback(() => setSearch(''), []);
+  const handleClose = useCallback(() => setIsShow(false), []);
+  const handleOpen = useCallback(() => setIsShow(true), []);
 
   const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
     switch (e.key) {
@@ -31,7 +31,7 @@ const useSearch = () => {
   };
 
   useEffect(() => {
-    (async function () {
+    (async () => {
       try {
         const newSearchList = await searchApi.get(debounceSearch);
         setSearchList(newSearchList);
@@ -41,7 +41,7 @@ const useSearch = () => {
         handleCurrentIdxUpdate(-1);
       }
     })();
-  }, [debounceSearch]);
+  }, [debounceSearch, handleCurrentIdxUpdate]);
 
   return {
     search,
