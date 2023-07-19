@@ -24,19 +24,20 @@ const Header = () => {
 
 const SLayout = styled.header`
   width: 100%;
-  height: 56px;
 
   background-color: ${props => props.theme.colors['bg-white']};
 `;
 
 const SContainer = styled.div`
   max-width: 1040px;
-  height: 100%;
 
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: space-between;
   align-items: center;
 
+  padding: 15px 10px;
   margin: 0 auto;
 `;
 

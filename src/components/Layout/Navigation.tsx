@@ -5,24 +5,31 @@ import Button from '../Button';
 const Navigation = () => {
   return (
     <nav>
-      <SContainer>
+      <SNavigationList>
         {DUMMY_NAVIGATORS.map(navigator => (
-          <li key={navigator}>
+          <SNavigationItem key={navigator}>
             <Button>{navigator}</Button>
-          </li>
+          </SNavigationItem>
         ))}
-      </SContainer>
+      </SNavigationList>
     </nav>
   );
 };
 
 const DUMMY_NAVIGATORS = ['소개', '질문과 답변', '소식받기', '제휴/문의'];
 
-const SContainer = styled.ul`
+const SNavigationList = styled.ul`
   display: flex;
   gap: 20px;
 
+  padding: 0;
+  margin: 0;
+
   list-style: none;
+`;
+
+const SNavigationItem = styled.li`
+  flex-shrink: 0;
 `;
 
 export default Navigation;
