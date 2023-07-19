@@ -65,6 +65,8 @@ const SLayout = styled.div<SLayoutStyleProps>`
   border-radius: 42px;
 
   background-color: ${props => props.theme.colors['bg-white']};
+
+  z-index: 1;
 `;
 
 const SInputSearchContainer = styled.div`

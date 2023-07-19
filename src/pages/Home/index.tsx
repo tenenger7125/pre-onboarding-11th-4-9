@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <SLayout>
       <SContainer>
-        <Title order={2} fz={34}>
+        <Title order={2}>
           국내 모든 임상시험 검색하고
           <br />
           온라인으로 참여하기
