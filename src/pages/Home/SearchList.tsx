@@ -36,7 +36,6 @@ const SLayout = styled.div`
   background-color: ${props => props.theme.colors['bg-white']};
 
   border-radius: 10px;
-  overflow-y: auto;
 
   text-align: left;
 `;

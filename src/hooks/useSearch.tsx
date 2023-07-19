@@ -4,6 +4,8 @@ import useDebounce from './useDebounce';
 import { searchApi } from '../apis';
 import { SearchType } from '../types/search';
 
+const limitSearchList = (list: SearchType[], num: number) => list.slice(0, num);
+
 const useSearch = () => {
   const [searchList, setSearchList] = useState<SearchType[]>([]);
   const [search, setSearch] = useState('');
@@ -34,7 +36,7 @@ const useSearch = () => {
     (async () => {
       try {
         const newSearchList = await searchApi.get(debounceSearch);
-        setSearchList(newSearchList);
+        setSearchList(limitSearchList(newSearchList, 6));
       } catch (err) {
         console.log(err);
       } finally {
