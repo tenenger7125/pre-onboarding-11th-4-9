@@ -12,7 +12,7 @@
 
 ## 기본 사항
 
-- 배포 링크 : [DEMO](https://clinicaltrialskorea-clone.netlify.app/)
+- 배포 링크 : [DEMO](https://clinicaltrialskorea-clone.netlify.app/) **서버에 sleep이 있으니, 여유를 갖고 천천히 진행해주세요**
 - 진행 기간 : 7월 16일(일) 12:00 ~ 7월 19일(수) 24:00
 
 ---
@@ -145,10 +145,10 @@ $ npm start
 
 #### 접근 방법
 
-- input field 값을 API 요청시 queryString으로 넣어 해당 string을 포함하는 sick data list를 배열 형태로 얻는다.
+- input field 값으로 API 요청시 `queryString`으로 넣어 해당 string을 포함하는 `sick data list`를 배열 형태로 얻는다.
 
-  - useState와 onChange를 활용한 controlled 방식으로 input field 값을 얻는다.
-  - API 요청하기 위한 비지니스 로직을 구현하여 sick data list를 배열 형태로 얻는다.
+  - `useState`와` onChange`를 활용한 controlled 방식으로 input field 값을 얻는다.
+  - API 요청하기 위한 비지니스 로직을 구현하여 `sick data list`를 배열 형태로 얻는다.
 
     ```ts
     // service/search.ts
@@ -180,9 +180,9 @@ $ npm start
     };
     ```
 
-  - Search, SearchList 컴포넌트와 useSearch 기능을 활용하여 얻어낸 sick data list를 배열로 나열했다.
-    - 추가적으로 input field에 존재하는 X 버튼을 클릭하면, input field value가 빈 문자열로 초기화하게 했다.
-    - useOutSideClick hook을 구현하여 바깥쪽을 클릭했을 때, 검색 추천 리스트를 감추게 했다.
+  - `Search`, `SearchList` 컴포넌트와 `useSearch` 기능을 활용하여 얻어낸 `sick data list`를 배열로 나열했다.
+    - 추가적으로 input field에 존재하는 `X 버튼`을 클릭하면, input field value가 빈 문자열로 초기화하게 했다.
+    - `useOutSideClick hook`을 구현하여 바깥쪽을 클릭했을 때, 검색 추천 리스트를 감추게 했다.
 
 ---
 
@@ -197,14 +197,14 @@ $ npm start
 
 #### 접근 방법
 
-- cacheStorage를 활용하여 서버 데이터를 캐시로 저장하고, 필요할 때 저장된 데이터를 반환하여 서버 부하를 줄이는 방식을 택했다.
+- `cacheStorage`를 활용하여 서버 데이터를 캐시로 저장하고, 필요할 때 저장된 데이터를 반환하여 서버 부하를 줄이는 방식을 택했다.
 
-  - cacheStorage에 Response 객체를 저장할 때, put 메서드를 이용하여 추가 및 기존 Response를 덮어써 add 메서드를 사용하지 않아 추가적인 메서드 구현을 줄였다.
-  - cacheStorage는 Response 객체를 저장하는데, AxiosResponse 객체는 저장할 수 없으므로, data만 추출하여 생성자 Response으로 Response 객체로 만들어서 저장했다.
+  - `cacheStorage`에 Response 객체를 저장할 때, `put 메서드`를 이용하여 추가 또는 기존 Response를 덮어씌웠다.
+  - `cacheStorage`는 Response 객체를 저장하는데, AxiosResponse 객체는 저장할 수 없으므로, data만 추출하여 생성자 Response으로 Response 객체로 만들어서 저장했다.
     - Response 객체 대신 URI를 통해 Response 객체로 변환하여 저장할 수 있다.
-    - 그러나, URI에는 BASE_URL과 pathname이 있고, BASE_URL을 중복해서 사용하는 것을 줄이고자 axios instance에 등록했기 때문에 URI 대신 Response 생성자 함수를 사용하게 되었다.
-  - cacheStorage를 구분하기 위한 Key는 즉시실행 함수를 활용한 클로저로 구현하여 응집도를 높였다.
-  - cacheStorage에 저장된 값을 얻기 위해 match 메서드를 활용하여 캐시된 Response 객체 얻었다.
+    - 그러나, URI에는 BASE_URL과 pathname이 있고, BASE_URL을 중복해서 사용하는 것을 줄이고자 axios instance에 등록했기 때문에 Response 생성자 함수를 사용하게 되었다.
+  - `cacheStorage`를 구분하기 위한 `Key`는 즉시실행 함수를 활용한 클로저로 구현하여 응집도를 높였다.
+  - `cacheStorage`에 저장된 값을 얻기 위해 `match 메서드`를 활용하여 캐시된 Response 객체 얻었다.
 
   ```ts
   export const cache = (() => {
@@ -259,9 +259,28 @@ $ npm start
     - 현재 시간과 `캐시로 저장된 만료시간`를 비교하여 만료시간을 넘은 경우 API 요청을 보내고, 얻은 data와 현재 시간 + 사용자 정의 시간(ms)를 함께 저장한다.
 
       - axios interceptors를 활용하여 api 요청시 캐시 데이터를 저장했다.
-        - apis/search.ts 내부에서 API 요청 이후에 캐시 저장과 비교했을 때, 로직 분리를 통해 가독성이 더 낫다고 판단되었다.
-          - API 요청을 보내기 전에 캐시 데이터가 있으면 캐시 데이터를 얻고, 없거나 만료시간이 지나면 API 요청을 보낸다 => apis/search.ts
-          - API 요청을 보내고 얻은 데이터는 캐시로 저장한다. => services/search.ts
+
+        - `apis/search.ts` 내부에서 API 요청 이후에 캐시를 저장하는 로직과 비교했을 때, interceptors를 활용하여 로직 분리하는 것이 가독성이 더 좋다고 판단되었다.
+
+        ```ts
+        const { data } = await instance.get<SearchType[]>(url);
+        // 여기에서 캐시 저장하지 않는 것이 가독성이 더 낫다고 판단되었다.
+        console.info('calling api');
+        ```
+
+        - API 요청을 보내기 전에 캐시 데이터가 있으면 캐시 데이터를 얻고, 없거나 만료시간이 지나면 API 요청을 보낸다 => `apis/search.ts`
+        - API 요청을 보내고, interceptors를 통해 AxiosResponse 객체를 반환하기 전에 데이터를 캐시로 저장한다. => `services/search.ts`
+
+          - 데이터와 캐시 만료시간을 함께 저장한다.
+
+          ```ts
+          async set(url: string, data: unknown) {
+            const cacheStorage = await caches.open(SEARCH_KEY);
+            const response = new Response(JSON.stringify({ data, expirationTime: Date.now() + EXPIRATION_TIME }));
+
+            await cacheStorage.put(url, response);
+          }
+          ```
 
       ```ts
       // services/search.ts
@@ -300,14 +319,14 @@ $ npm start
 
 #### 접근 방법
 
-- 입력마다 onChange 이벤트 핸들러 함수가 호출되어 input field 값이 업데이트된다.
+- 입력마다 `onChange` 이벤트 핸들러 함수가 호출되어 input field 값이 업데이트된다.
 
   - input field 값이 변경될 떄마다 과도한 API 호출을 하게되는 이슈가 있다.
-  - 입력이 종료되는 시점에 API 호출을 하는 debounce 프로그래밍 기법을 사용했다.
-    - onChange에 debounce를 적용할 경우, 키보드 입력이 종료될 때 사용자의 화면에 입력값이 표시되기 때문에 사용자 측면에 좋지 않다.
-    - 그렇기 떄문에, onChange는 기존대로 동작해야한다.
-    - onChange로 input field 값이 변경될 때, 입력이 종료되면 요청할 수 있도록 debounceValue를 반환하는 useDebounce hook을 구현했다.
-    - 결과적으로 딜레이가 걸린 debounceValue가 변경되면 debounceValue으로 API 요청을 보내 과도한 API 호출을 방지할 수 있도록 했다.
+  - 입력이 종료되는 시점에 API 호출을 하는 `debounce` 프로그래밍 기법을 사용했다.
+    - `onChange`에 `debounce`를 적용할 경우, 키보드 입력이 종료될 때 사용자의 화면에 입력값이 표시되기 때문에 사용자 측면에 좋지 않다.
+    - 그렇기 떄문에, `onChange`는 기존대로 동작해야한다.
+    - `onChange`로 input field 값이 변경될 때, 입력이 종료되면 요청할 수 있도록 `debounceValue`를 반환하는 `useDebounce` hook을 구현했다.
+    - 결과적으로 딜레이가 걸린 `debounceValue`가 변경되면 `debounceValue`으로 API 요청을 보내 과도한 API 호출을 방지할 수 있도록 했다.
 
   ```ts
   const useDebounce = (value: string, delay = 500) => {
@@ -359,7 +378,64 @@ $ npm start
 
 #### 접근 방법
 
-- ***
+- 검색 후 위 또는 아래 화살표를 누르면 해당 검색 결과 리스트에 선택했다는 표시가 시각적으로 보여진다.
+  - input field 입력
+  - input field에서 위, 아래 화살표 입력
+    - `onKeyDown` 이벤트 핸들러를 활용하여 이벤트를 캐치한다.
+    - `onKeyPress`는 deprecated, `onKeyUp`의 경우 화살표를 누르고 있으면 동작하지 않아서 선택하지 않았다.
+  - 입력 횟수 만큼 인덱스가 증가하여 검색 결과 리스트 선택
+- 인덱스는 위 화살표를 계속 누르면 검색 결과 리스트를 선택하지 않았을 경우와 동일해야한다.
+  - 인덱스는 최소 `-1`이어야한다.
+- 인덱스는 아래 화살표를 계속 눌러도, 가장 마지막 검색 결과 리스트를 선택한다.
+  - 인덱스는 최대 `searchList.length -1` 이어야한다.
+
+```ts
+const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
+  switch (e.key) {
+    case 'ArrowUp': {
+      e.preventDefault();
+      return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+    }
+    case 'ArrowDown': {
+      e.preventDefault();
+      return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
+    }
+  }
+};
+```
+
+- 마우스 `hover` 이후에 위, 아래 화살표를 입력하면 `hover` 된 위치에서 이동이 가능해야한다.
+
+  - `hover`했을 때도 인덱스 변경
+  - 마우스가 검색 결과 리스트 영역안에 들어왔을 때 이벤트를 캐치할 수 있는 `onMouseEnter` 이벤트 핸들러 사용
+
+  ```tsx
+  <SSearchItem key={sickCd} $isHover={currentIdx === idx} onMouseEnter={() => handleCurrentIdxUpdate(idx)}>
+    <SearchIcon width={16} />
+    <span>{sickNm}</span>
+  </SSearchItem>
+  ```
+
+- input field의 값이 변경될 때 index는 검색 결과 리스트를 선택하지 않은 상태로 초기화되어야한다.
+
+  - `useEffect`를 활용하여 `debouncedValue`가 변경 될때 index를 `-1`로 초기화한다.
+
+```tsx
+useEffect(() => {
+  (async () => {
+    try {
+      const newSearchList = await searchApi.get(debounceSearch);
+      setSearchList(limitSearchList(newSearchList, 6));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleCurrentIdxUpdate(-1);
+    }
+  })();
+}, [debounceSearch, handleCurrentIdxUpdate]);
+```
+
+---
 
 <br/>
 
@@ -379,7 +455,8 @@ $ npm start
 
 - 휴면에러를 줄이기 위해 `JavaScript`대신 `TypeScript` 언어를 선택했다.
 - 전역 상태 관리 라이브러리를 사용할 필요가 없다고 판단했다.
-- UI 라이브러리를 활용하는 것 대신, styled-components를 사용하여 스타일링 실력을 향상시키고자 했다.
+- UI 라이브러리를 활용하는 것 대신, `styled-components`를 사용하여 스타일링 실력을 향상시키고자 했다.
   - 또한, common 컴포넌트를 구현하는 실력을 향상시키고 싶었다.
-- axios를 사용하여 특정 에러(404)도 에러로 관리하고 싶었다.
-- react-router-dom 라이브러리의 라우팅 기술로 필요한 부분만 서버에 요청하는 SPA 기법을 사용하여, 기존 방식인 새로고침을 통해 발생하는 서버 부하를 해소하고자 했다.
+- `axios`를 사용하여 특정 에러(404)도 에러로 관리하고 싶었다.
+- `react-router-dom` 라이브러리의 라우팅 기술로 필요한 부분만 서버에 요청하는 `SPA` 기법을 사용하여, 기존 방식인 새로고침을 통해 발생하는 서버 부하를 해소하고자 했다.
+- 설정관련 라이브러리는 사용하는데 제약이 없다고 하여, 코드 일관성을 위해 `eslint`와 `prettier`를 사용했다.
