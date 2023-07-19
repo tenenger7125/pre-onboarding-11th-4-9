@@ -19,18 +19,21 @@ const useSearch = () => {
   const handleClose = useCallback(() => setIsShow(false), []);
   const handleOpen = useCallback(() => setIsShow(true), []);
 
-  const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
-    switch (e.key) {
-      case 'ArrowUp': {
-        e.preventDefault();
-        return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+  const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
+    e => {
+      switch (e.key) {
+        case 'ArrowUp': {
+          e.preventDefault();
+          return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+        }
+        case 'ArrowDown': {
+          e.preventDefault();
+          return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
+        }
       }
-      case 'ArrowDown': {
-        e.preventDefault();
-        return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
-      }
-    }
-  };
+    },
+    [searchList],
+  );
 
   useEffect(() => {
     (async () => {
