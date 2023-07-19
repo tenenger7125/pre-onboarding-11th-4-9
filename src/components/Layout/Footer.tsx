@@ -28,7 +28,7 @@ const Footer = () => {
 
 const SLayout = styled.footer`
   width: 100%;
-  padding: 40px 0;
+  padding: 40px 20px;
 
   background-color: ${props => props.theme.colors['bg-lightBlack']};
 
@@ -45,6 +45,7 @@ const SContainer = styled.div`
   max-width: 1040px;
 
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 
