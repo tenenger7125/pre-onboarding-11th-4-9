@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from 'styled-components';
 
 import { ReactComponent as SearchIcon } from '../../assets/search.svg';
@@ -67,4 +68,4 @@ type SearchListProps = {
   handleCurrentIdxUpdate: (idx: number) => void;
 };
 
-export default SearchList;
+export default React.memo(SearchList);
