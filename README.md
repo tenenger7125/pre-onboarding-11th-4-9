@@ -12,7 +12,9 @@
 
 ## 기본 사항
 
-- 배포 링크 : [DEMO](https://clinicaltrialskorea-clone.netlify.app/) **서버에 sleep이 있으니, 여유를 갖고 천천히 진행해주세요**
+> <span style="font-weight: 700; color: red">서버에 Sleep이 걸려있으면 서버 데이터를 얻는데 시간이 걸릴 수 있으니, 여유를 갖고 천천히 진행해주세요 😎</span>
+
+- 배포 링크 : [DEMO](https://clinicaltrialskorea-clone.netlify.app/)
 - 진행 기간 : 7월 16일(일) 12:00 ~ 7월 19일(수) 24:00
 
 ---
