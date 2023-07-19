@@ -12,7 +12,7 @@
 
 ## 기본 사항
 
-> <span style="font-weight: 700; color: red">서버에 Sleep이 걸려있으면 서버 데이터를 얻는데 시간이 걸릴 수 있으니, 여유를 갖고 천천히 진행해주세요 😎</span>
+<span style="font-weight: 700; color: red">서버에 Sleep이 걸려있으면 서버 데이터를 얻는데 시간이 걸릴 수 있으니, 여유를 갖고 천천히 진행해주세요 😎</span>
 
 - 배포 링크 : [DEMO](https://clinicaltrialskorea-clone.netlify.app/)
 - 진행 기간 : 7월 16일(일) 12:00 ~ 7월 19일(수) 24:00
@@ -344,6 +344,21 @@ $ npm start
   };
   ```
 
+  ```tsx
+  useEffect(() => {
+    (async () => {
+      try {
+        const newSearchList = await searchApi.get(debounceSearch);
+        setSearchList(limitSearchList(newSearchList, 6));
+      } catch (err) {
+        console.log(err);
+      } finally {
+        handleCurrentIdxUpdate(-1);
+      }
+    })();
+  }, [debounceSearch, handleCurrentIdxUpdate]);
+  ```
+
 ---
 
 <br/>
@@ -392,18 +407,21 @@ $ npm start
   - 인덱스는 최대 `searchList.length -1` 이어야한다.
 
 ```ts
-const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
-  switch (e.key) {
-    case 'ArrowUp': {
-      e.preventDefault();
-      return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
+  e => {
+    switch (e.key) {
+      case 'ArrowUp': {
+        e.preventDefault();
+        return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+      }
+      case 'ArrowDown': {
+        e.preventDefault();
+        return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
+      }
     }
-    case 'ArrowDown': {
-      e.preventDefault();
-      return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
-    }
-  }
-};
+  },
+  [searchList],
+);
 ```
 
 - 마우스 `hover` 이후에 위, 아래 화살표를 입력하면 `hover` 된 위치에서 이동이 가능해야한다.
