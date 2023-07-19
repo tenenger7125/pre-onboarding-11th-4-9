@@ -16,7 +16,7 @@ const Search = () => {
     handleSearchReset,
     handleOpen,
     handleClose,
-    handleKeyDown,
+    handleSearchKeyDown,
     handleCurrentIdxUpdate,
   } = useSearch();
   const ref = useOutSideClick(handleClose);
@@ -31,7 +31,7 @@ const Search = () => {
           onChange={handleSearchChange}
           onFocus={handleOpen}
           onClick={handleOpen}
-          onKeyDown={handleKeyDown}
+          onKeyDown={handleSearchKeyDown}
           placeholder={isShow ? '' : '질환명을 입력해주세요'}
         />
         {isShow && (

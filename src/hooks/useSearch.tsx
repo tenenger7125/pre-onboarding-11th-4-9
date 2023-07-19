@@ -17,7 +17,7 @@ const useSearch = () => {
   const handleClose = useCallback(() => setIsShow(false), []);
   const handleOpen = useCallback(() => setIsShow(true), []);
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
+  const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = e => {
     switch (e.key) {
       case 'ArrowUp': {
         e.preventDefault();
@@ -52,7 +52,7 @@ const useSearch = () => {
     handleSearchReset,
     handleOpen,
     handleClose,
-    handleKeyDown,
+    handleSearchKeyDown,
     handleCurrentIdxUpdate,
   };
 };
