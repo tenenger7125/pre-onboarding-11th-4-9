@@ -12,7 +12,7 @@
 
 ## 기본 사항
 
-<span style="font-weight: 700; color: red">서버에 Sleep이 걸려있으면 서버 데이터를 얻는데 시간이 걸릴 수 있으니, 여유를 갖고 천천히 진행해주세요 😎</span>
+> 서버에 Sleep이 걸려있으면 서버 데이터를 얻는데 시간이 걸릴 수 있으니, 여유를 갖고 천천히 진행해주세요 😎
 
 - 배포 링크 : [DEMO](https://clinicaltrialskorea-clone.netlify.app/)
 - 진행 기간 : 7월 16일(일) 12:00 ~ 7월 19일(수) 24:00
@@ -43,6 +43,7 @@ $ npm start
 - **react-router-dom**
 - **eslint**
 - **prettier**
+- **husky**
 
 ---
 
@@ -63,6 +64,9 @@ $ npm start
 
 ```
 📦pre-onboarding-11th-4-9
+ ┣ 📂.husky
+ ┃ ┣ 📜pre-commit
+ ┃ ┗ 📜pre-push
  ┣ 📂public
  ┃ ┣ 📜favicon.ico
  ┃ ┣ 📜index.html
@@ -126,6 +130,7 @@ $ npm start
  ┃ ┃ ┗ 📜index.ts
  ┃ ┣ 📜App.tsx
  ┃ ┗ 📜index.tsx
+ ┣ 📜.env
  ┣ 📜.eslintrc.json
  ┣ 📜.gitignore
  ┣ 📜.prettierrc
@@ -479,4 +484,4 @@ useEffect(() => {
   - 또한, common 컴포넌트를 구현하는 실력을 향상시키고 싶었다.
 - `axios`를 사용하여 특정 에러(404)도 에러로 관리하고 싶었다.
 - `react-router-dom` 라이브러리의 라우팅 기술로 필요한 부분만 서버에 요청하는 `SPA` 기법을 사용하여, 기존 방식인 새로고침을 통해 발생하는 서버 부하를 해소하고자 했다.
-- 설정관련 라이브러리는 사용하는데 제약이 없다고 하여, 코드 일관성을 위해 `eslint`와 `prettier`를 사용했다.
+- 설정관련 라이브러리는 사용하는데 제약이 없다고 하여, 코드 일관성을 위해 `eslint`, `prettier`, `husky`를 사용했다.
