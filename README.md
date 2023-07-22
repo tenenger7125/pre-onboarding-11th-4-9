@@ -1,3 +1,36 @@
+- [Week 4-1](#week-4-1)
+  - [과제](#과제)
+  - [기본 사항](#기본-사항)
+  - [How To Run](#how-to-run)
+  - [Tech Stack](#tech-stack)
+    - [개발](#개발)
+  - [구현 중점 사항](#구현-중점-사항)
+    - [목표](#목표)
+      - [해당 사이트에서 검색영역 클론하기](#해당-사이트에서-검색영역-클론하기)
+    - [폴더 구조](#폴더-구조)
+    - [1. 요구사항](#1-요구사항)
+      - [질환명 검색시 API 호출 통해서 검색어 추천 기능 구현](#질환명-검색시-api-호출-통해서-검색어-추천-기능-구현)
+      - [접근 방법](#접근-방법)
+    - [2. 요구사항](#2-요구사항)
+      - [API 호출별로 로컬 캐싱 구현](#api-호출별로-로컬-캐싱-구현)
+      - [접근 방법](#접근-방법-1)
+      - [피드백 수정 (2023/07/22)](#피드백-수정-20230722)
+    - [3. 요구사항](#3-요구사항)
+      - [입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행](#입력마다-api-호출하지-않도록-api-호출-횟수를-줄이는-전략-수립-및-실행)
+      - [접근 방법](#접근-방법-2)
+    - [4. 요구사항](#4-요구사항)
+      - [API를 호출할 때 마다 console.info("calling api") 출력을 통해 콘솔창에서 API 호출 횟수 확인이 가능하도록 설정](#api를-호출할-때-마다-consoleinfocalling-api-출력을-통해-콘솔창에서-api-호출-횟수-확인이-가능하도록-설정)
+      - [접근 방법](#접근-방법-3)
+    - [5. 요구사항](#5-요구사항)
+      - [키보드만으로 추천 검색어들로 이동 가능하도록 구현](#키보드만으로-추천-검색어들로-이동-가능하도록-구현)
+      - [접근 방법](#접근-방법-4)
+      - [피드백 수정 (2023/07/22)](#피드백-수정-20230722-1)
+    - [6. 요구사항](#6-요구사항)
+      - [개발 조건 및 환경](#개발-조건-및-환경)
+      - [접근 방법](#접근-방법-5)
+
+<br />
+
 # Week 4-1
 
 ## 과제
@@ -146,7 +179,8 @@ $ npm start
 
 ### 1. 요구사항
 
-> 질환명 검색시 API 호출 통해서 검색어 추천 기능 구현
+#### 질환명 검색시 API 호출 통해서 검색어 추천 기능 구현
+
 > 검색어가 없을 시 "검색어 없음" 표출
 > <img src="https://lean-mahogany-686.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F81d5016d-ca92-494c-a90c-5458ffde01c5%2FUntitled.png?id=ef3667f4-8100-4ce0-8ec5-29dfb94bb8f1&table=block&spaceId=72b256b1-ae08-4e70-bb6c-f9c3cad5a793&width=2000&userId=&cache=v2"/>
 
@@ -197,10 +231,11 @@ $ npm start
 
 ### 2. 요구사항
 
-> - API 호출별로 로컬 캐싱 구현
->   - 캐싱 기능을 제공하는 라이브러리 사용 금지(React-Query 등)
->   - 캐싱을 어떻게 기술했는지에 대한 내용 README에 기술
->   - expire time을 구현할 경우 가산점
+#### API 호출별로 로컬 캐싱 구현
+
+> - 캐싱 기능을 제공하는 라이브러리 사용 금지(React-Query 등)
+> - 캐싱을 어떻게 기술했는지에 대한 내용 README에 기술
+> - expire time을 구현할 경우 가산점
 
 #### 접근 방법
 
@@ -315,14 +350,45 @@ $ npm start
       };
       ```
 
+#### 피드백 수정 (2023/07/22)
+
+- 싱글톤 패턴에 따라, 특정 객체 인스턴스는 단 하나로 만드는 패턴으로 변경했다.
+  - `getCacheStorage` 함수로 `cacheStorage` 객체 인스턴스는 한번만 호출되게 변경했다.
+
+```ts
+let cacheStorage: Cache | undefined;
+
+const getCacheStorage = async () => {
+  if (cacheStorage === undefined) cacheStorage = await caches.open(SEARCH_KEY);
+
+  return cacheStorage;
+};
+
+return {
+  async set(url: string, data: unknown) {
+    const cacheStorage = await getCacheStorage();
+    const response = new Response(JSON.stringify({ data, expirationTime: Date.now() + EXPIRATION_TIME }));
+
+    await cacheStorage.put(url, response);
+  },
+  async get(url: string) {
+    const cacheStorage = await getCacheStorage();
+    const cacheResponse = await cacheStorage.match(url);
+
+    return cacheResponse;
+  },
+};
+```
+
 ---
 
 <br/>
 
 ### 3. 요구사항
 
-> - 입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행
->   - README에 전략에 대한 설명 기술
+#### 입력마다 API 호출하지 않도록 API 호출 횟수를 줄이는 전략 수립 및 실행
+
+> - README에 전략에 대한 설명 기술
 
 #### 접근 방법
 
@@ -370,7 +436,7 @@ $ npm start
 
 ### 4. 요구사항
 
-> API를 호출할 때 마다 console.info("calling api") 출력을 통해 콘솔창에서 API 호출 횟수 확인이 가능하도록 설정
+#### API를 호출할 때 마다 console.info("calling api") 출력을 통해 콘솔창에서 API 호출 횟수 확인이 가능하도록 설정
 
 #### 접근 방법
 
@@ -395,8 +461,9 @@ $ npm start
 
 ### 5. 요구사항
 
-> - 키보드만으로 추천 검색어들로 이동 가능하도록 구현
->   - 사용법 README에 기술
+#### 키보드만으로 추천 검색어들로 이동 가능하도록 구현
+
+> - 사용법 README에 기술
 
 #### 접근 방법
 
@@ -460,14 +527,42 @@ useEffect(() => {
 }, [debounceSearch, handleCurrentIdxUpdate]);
 ```
 
+#### 피드백 수정 (2023/07/22)
+
+- 해시테이블을 이용하여 조건에 맞는 함수를 호출하기
+  - `searchKeyDownHashTable` 객체가 키보드 관련 메서드를 반환하고, 해당 메서드는 `e.key`와 메서드 이름이 같으면 호출되는 형식이다.
+  - `switch`문법을 사용하지 않고도 깔끔하게 분리되었다.
+    - 케이스 수가 적어서 의미가 없지만, 시간복잡도가 O(n) => O(1)로 수정되었다!
+  - 코드가 간결해지고, 추가 로직을 구현할 때 편리할 것으로 예상된다.
+
+```ts
+const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
+  e => {
+    const searchKeyDownHashTable: { [index: string]: () => void } = {
+      ArrowUp() {
+        e.preventDefault();
+        setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+      },
+      ArrowDown() {
+        e.preventDefault();
+        setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
+      },
+    };
+
+    searchKeyDownHashTable[e.key];
+  },
+  [searchList],
+);
+```
+
 ---
 
 <br/>
 
 ### 6. 요구사항
 
-> 개발 조건 및 환경
->
+#### 개발 조건 및 환경
+
 > - 기간: 7월 16일(일) 12:00 ~ 7월 19일(수) 24:00
 > - 언어 : JavaScript / TypeScript
 > - 사용가능한 기술:
