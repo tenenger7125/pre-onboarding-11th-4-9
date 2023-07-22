@@ -21,16 +21,18 @@ const useSearch = () => {
 
   const handleSearchKeyDown: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
     e => {
-      switch (e.key) {
-        case 'ArrowUp': {
+      const searchKeyDownHashTable: { [index: string]: () => void } = {
+        ArrowUp() {
           e.preventDefault();
-          return setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
-        }
-        case 'ArrowDown': {
+          setCurrentIdx(prev => (prev >= 0 ? prev - 1 : prev));
+        },
+        ArrowDown() {
           e.preventDefault();
-          return setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
-        }
-      }
+          setCurrentIdx(prev => (prev < searchList.length - 1 ? prev + 1 : prev));
+        },
+      };
+
+      searchKeyDownHashTable[e.key];
     },
     [searchList],
   );
